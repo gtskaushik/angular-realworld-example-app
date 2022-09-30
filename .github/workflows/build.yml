@@ -1,19 +1,18 @@
-#Workflow name
 name: Frontend Pipeline
 on:
-  #Manually trigger workflow runs
+  # Manually trigger workflow runs
   workflow_dispatch:
-  #Trigger the workflow on push from the main branch
+  # Trigger the workflow on push from the main branch
   push:
     branches:
       - main
 jobs:
   frontend:
-    name: Build fronted app
-    #Run on Ubuntu using the latest version
+    name: Build frontend app
+    # Run on Ubuntu using the latest version
     runs-on: ubuntu-latest
     steps:
-      #Check-out your repository under $GITHUB_WORKSPACE, so your workflow can access it
+      # Check-out your repository under $GITHUB_WORKSPACE, so your workflow can access it
       - uses: actions/checkout@v3
 
       # Set up node and npm
