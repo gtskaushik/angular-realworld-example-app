@@ -32,6 +32,9 @@ jobs:
         id: date
         run: echo "::set-output name=date::$(date +'%Y-%m-%dT%H.%M.%S')"
 
+      - name: Print version
+        run: echo "Version - ${{ steps.date.outputs.date }}"
+
       # Docker build step
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v2
