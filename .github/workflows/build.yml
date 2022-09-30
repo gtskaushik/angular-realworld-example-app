@@ -11,24 +11,27 @@ on:
       - qa
       - prod
 jobs:
-  #Test's job
-  tests:
+  frontend:
     name: Build & Test
     #Run on Ubuntu using the latest version
     runs-on: ubuntu-latest
-    #Job's steps
     steps:
       #Check-out your repository under $GITHUB_WORKSPACE, so your workflow can access it
-      - uses: actions/checkout@v1
-      #Set up node and npm
+      - uses: actions/checkout@v3
+
+      # Set up node and npm
       - uses: actions/setup-node@v3
         with:
           node-version: 16
+
+      # Run the build
       - run: npm ci
       - name: Build
         run: npm run build -prod
       - name: Lint
         run: npm run lint
+
+      # Docker build step
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v2
       - name: Set up Docker Buildx
@@ -46,6 +49,12 @@ jobs:
         uses: docker/build-push-action@v3
         with:
           push: true
-          tags: ${{ steps.login-ecr.outputs.registry }}/toptal-frontend:latest
+          tags: ${{ steps.login-ecr.outputs.registry }}/toptal-frontend:${{ github.event.repository.updated_at}}
           context: .
           file: Dockerfile
+
+      # Create a new git tag
+      - uses: rickstaa/action-create-tag@v1
+        with:
+          tag: ${{ github.event.repository.updated_at}}
+          message: "TAG was created at ${{ github.event.repository.updated_at}}"
