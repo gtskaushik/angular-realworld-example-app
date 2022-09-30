@@ -12,7 +12,7 @@ on:
       - prod
 jobs:
   frontend:
-    name: Build & Test
+    name: Build fronted app
     #Run on Ubuntu using the latest version
     runs-on: ubuntu-latest
     steps:
