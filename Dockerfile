@@ -1,3 +1,10 @@
 FROM nginx:1.23.1-alpine
-COPY ./nginx.conf /etc/nginx/nginx.conf
+
+# Copy nginx conf
+COPY ./nginx.conf /etc/nginx/conf.d/default.conf
+
+# Copy the final binaries
 COPY ./dist/* /usr/share/nginx/html
+
+# Open the nginx port for traffic
+EXPOSE 80
