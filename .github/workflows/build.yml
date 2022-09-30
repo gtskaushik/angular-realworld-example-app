@@ -31,6 +31,10 @@ jobs:
       - name: Lint
         run: npm run lint
 
+      - name: Get current date
+        id: date
+        run: echo "::set-output name=date::$(date +'%Y-%m-%dT%H:%M:%S')"
+
       # Docker build step
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v2
@@ -49,12 +53,12 @@ jobs:
         uses: docker/build-push-action@v3
         with:
           push: true
-          tags: ${{ steps.login-ecr.outputs.registry }}/toptal-frontend:${{ github.event.repository.updated_at}}
+          tags: ${{ steps.login-ecr.outputs.registry }}/toptal-frontend:${{ steps.date.outputs.date }}
           context: .
           file: Dockerfile
 
       # Create a new git tag
       - uses: rickstaa/action-create-tag@v1
         with:
-          tag: ${{ github.event.repository.updated_at}}
-          message: "TAG was created at ${{ github.event.repository.updated_at}}"
+          tag: ${{ steps.date.outputs.date }}
+          message: "TAG was created at ${{ steps.date.outputs.date }}"
