@@ -7,9 +7,6 @@ on:
   push:
     branches:
       - main
-      - dev
-      - qa
-      - prod
 jobs:
   frontend:
     name: Build fronted app
