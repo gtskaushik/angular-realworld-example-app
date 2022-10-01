@@ -33,17 +33,14 @@ jobs:
       - name: Print kubeconfig
         id: kubecontext
         run: echo "::set-output name=kubecontext::$(cat $HOME/.kube/config)"
-      - uses: tale/kubectl-action@v1
-        with:
-          base64-kube-config: ${{ steps.kubeconfig.outputs.kubeconfig }}
+#      - uses: tale/kubectl-action@v1
+#        with:
+#          base64-kube-config: ${{ steps.kubeconfig.outputs.kubeconfig }}
       - name: Setup kubeconfig
-        run: kubectl get pods --all-namespaces
-      - uses: actions-hub/kubectl@master
-        env:
-          KUBE_CONFIG: ${{ steps.kubeconfig.outputs.kubeconfig }}
-          KUBE_CONTEXT: ${{ steps.kubecontext.outputs.kubecontext }}
-        with:
-          args: get pods --all-namespaces
+        run: |
+              snap install kubectl --classic
+              kubectl version --client
+              kubectl get pods --all-namespaces
       # Check versions
       - name: Check versions of aws,terraform,kubectl
         run: aws --version && terraform -version && kubectl version
