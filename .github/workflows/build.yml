@@ -38,7 +38,7 @@ jobs:
 #          base64-kube-config: ${{ steps.kubeconfig.outputs.kubeconfig }}
       - name: Setup kubeconfig
         run: |
-              snap install kubectl --classic
+              sudo snap install kubectl --classic
               kubectl version --client
               kubectl get pods --all-namespaces
       # Check versions
