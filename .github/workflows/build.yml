@@ -33,6 +33,11 @@ jobs:
       - name: Print kubeconfig
         id: kubecontext
         run: echo "::set-output name=kubecontext::$(cat $HOME/.kube/config)"
+      - uses: tale/kubectl-action@v1
+        with:
+          base64-kube-config: ${{ steps.kubeconfig.outputs.kubeconfig }}
+      - name: Setup kubeconfig
+        run: kubectl get pods --all-namespaces
       - uses: actions-hub/kubectl@master
         env:
           KUBE_CONFIG: ${{ steps.kubeconfig.outputs.kubeconfig }}
