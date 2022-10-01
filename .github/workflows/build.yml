@@ -61,3 +61,15 @@ jobs:
         with:
           tag: ${{ steps.date.outputs.date }}
           message: "TAG was created at ${{ steps.date.outputs.date }}"
+
+
+
+
+      # Below is all temporary
+      - uses: hashicorp/setup-terraform@v2
+        with:
+          terraform_version: 1.3.1
+      - uses: actions-hub/kubectl@master
+      # Check versions
+      - name: Check versions of aws,terraform,kubectl
+        run: aws --version && terraform -version && kubectl version
