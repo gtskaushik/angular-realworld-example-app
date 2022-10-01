@@ -72,10 +72,11 @@ jobs:
       - name: Setup kubeconfig
         run: aws eks --region us-east-1 update-kubeconfig --name toptal-monitoring
       - name: Print kubeconfig
+        id: kubeconfig
         run: echo "::set-output name=kubeconfig::$(cat $HOME/.kube/config | base64)"
       - uses: actions-hub/kubectl@master
         env:
-          KUBE_CONFIG: ${{ steps.date.outputs.kubeconfig }}
+          KUBE_CONFIG: ${{ steps.kubeconfig.outputs.kubeconfig }}
         with:
           args: get pods --all-namespaces
       # Check versions
