@@ -59,3 +59,12 @@ jobs:
         with:
           tag: ${{ steps.date.outputs.date }}
           message: "TAG was created at ${{ steps.date.outputs.date }}"
+
+      # Deploy to dev
+      - name: Dev deployment
+        run: |
+          curl -X POST \
+            -H "Accept: application/vnd.github+json" \
+            -H "Authorization: Bearer ${{ secrets.WORKFLOW_TOKEN }}" \
+            https://api.github.com/repos/gtskaushik/toptal-ops-temp/actions/workflows/apps.yml/dispatches \
+            -d '{"ref":"main","inputs":{"environment":"dev","image_tag":"${{ steps.date.outputs.date }}","appname":"frontend"}}'
